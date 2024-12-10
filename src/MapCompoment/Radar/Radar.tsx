@@ -21,7 +21,7 @@ const Radar: FC = () => {
 
     return (
         <>
-        { radarTimeLine.current && <TileLayer url={`https://tilecache.rainviewer.com${radarTimeLine.current[frame].path}/256/{z}/{x}/{y}/1/1_1.png`} />}
+        { radarTimeLine.current[frame]?.path && <TileLayer opacity={0.6} url={`https://tilecache.rainviewer.com${radarTimeLine.current[frame].path}/256/{z}/{x}/{y}/1/1_1.png`} />}
         </>
     )
 }
