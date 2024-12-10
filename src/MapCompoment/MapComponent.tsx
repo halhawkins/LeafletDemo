@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon, useMapEvents } from "react-leaflet"
 import { GeoPoint, GeoPoly } from "../GeoData"
 import MapInteraction from "./MapInteraction"
+import Radar from "./Radar/Radar"
 function MapComponent(){
 
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
@@ -13,6 +14,7 @@ function MapComponent(){
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <MapInteraction />
+                <Radar />
             {/* <Polygon positions={poly} color="red" fillColor="red" fillOpacity={0.8} /> */}
             {/* <Marker position={GeoPoint}>
                     <Popup>

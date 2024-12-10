@@ -101,7 +101,7 @@ const MapInteraction: FC = () => {
                     method: 'GET',
                 });
                 const data = await response.json();
-                console.log("data=",data);
+                console.log("data=",data.properties.fireWeatherZone);
                 setForecastData(data);
                 setIsLoading(false);
             } catch (error) {
