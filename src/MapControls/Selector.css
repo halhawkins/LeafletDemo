@@ -1,0 +1,46 @@
+.dots-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 32px;
+    width: 32px;
+    background-color: #eee5;
+    border-radius: 50%;
+    display: flex;
+}
+
+.expanded-menu-container {
+    position: relative;
+  }
+  
+.dots-menu:hover {
+    background-color: #eee7;
+    border: #3335;
+    border-style: solid;
+}
+.dots-menu img {
+    height: 20px;
+    width: 20px;
+    margin-top: 6px;
+    margin-left: 6px;
+}
+.expanded-menu {
+    position: absolute;
+    top: 40px; /* adjust this to put it below the dots menu */
+    right: 0;  /* keep it aligned to the right */
+    width: 150px; 
+    background-color: #eee5;
+    border-radius: 4px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+.expanded-menu div {
+    padding: 4px;
+    font-size: medium;
+    cursor: pointer;
+    background-color: #eeea;
+}
+.expanded-menu div:hover {
+    background-color: #ddda;
+}

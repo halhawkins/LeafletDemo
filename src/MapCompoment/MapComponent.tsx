@@ -2,9 +2,24 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon, useMapEvents } from "r
 import { GeoPoint, GeoPoly } from "../GeoData"
 import MapInteraction from "./MapInteraction"
 import Radar from "./Radar/Radar"
+import Selector from "../MapControls/Selector"
+import "./MapComponent.css"
+import LayerSelector from "../MapControls/LayerSelector"
+import { useSelector } from "react-redux"
+import { RootState, store } from "../store"
+import { useEffect, useState } from "react"
 function MapComponent(){
-
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
+    const layers = useSelector((state: RootState) => state.selector.layers);
+    const [radarVisible, setRadarVisible] = useState(true);
+    useEffect(() => {
+        console.log("layers changed", layers);
+        if (layers.includes("radar")) {
+            setRadarVisible(true);
+        } else {
+            setRadarVisible(false);
+        }
+    }, [layers])
 
     return (
         <div style={{width: "100%", height: "100%", position: "absolute"}}>
@@ -14,16 +29,22 @@ function MapComponent(){
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <MapInteraction />
-                <Radar />
-            {/* <Polygon positions={poly} color="red" fillColor="red" fillOpacity={0.8} /> */}
-            {/* <Marker position={GeoPoint}>
-                    <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker> */}
+                { (() => {
+                    if (radarVisible) {
+                        console.log("Radar visible");
+                        return (<Radar />)
+                    } else {
+                        console.log("Radar not visible");
+                        return (<></>)
+                    }
+                })() }
+                <Selector position="topright" >
+                    <LayerSelector />
+                </Selector>
             </MapContainer>
         </div>
     )
 }
+
 
 export default MapComponent;

@@ -10,9 +10,9 @@ const Radar: FC = () => {
             if (tlLoading) {
                 const response = await fetch('https://api.rainviewer.com/public/weather-maps.json');
                 const data = await response.json();
-                if (data.radar && data.radar.past.length > 0) {
-                    radarTimeLine.current = [...data.radar.past];
-                }
+                    if (data.radar && data.radar.past.length > 0) {
+                        radarTimeLine.current = [...data.radar.past];
+                    }
                 console.log("radarTimeLine", radarTimeLine.current);
                 setTlLoading(false);
             }

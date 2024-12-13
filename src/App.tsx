@@ -5,9 +5,9 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
-    <div className="App">
-      <MapComponent/>
-    </div>
+      <div className="App">
+        <MapComponent/>
+      </div>
   );
 }
 
