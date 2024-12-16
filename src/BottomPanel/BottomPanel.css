@@ -1,0 +1,10 @@
+.bottom-panel {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    height: 12rem;
+    background-color: #55a0ff;
+    z-index: 800;
+    bottom: 0;
+    /* align-self: flex-end; */
+}
