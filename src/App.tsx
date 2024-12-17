@@ -19,9 +19,9 @@ function App() {
             <MapComponent/>
             {/* <FaultyComponent /> */}
             {/* <ErrorMessage message='This is a message' /> */}
-            <BottomPanel />
           </div>
         </ErrorBoundary>
+          <BottomPanel />
       </div>
   );
 }
