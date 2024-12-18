@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 import { RootState, store } from "../store"
 import { useEffect, useState } from "react"
 import Satellite from "./Satellite/Satellite"
+import RadarKey from "./Radar/RadarKey"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -78,6 +79,8 @@ function MapComponent(){
                         return (<></>)
                     }
                 })() }
+                {radarVisible && 
+                <RadarKey position="topright"/>}
                 <Selector position="topright" >
                     <LayerSelector />
                 </Selector>

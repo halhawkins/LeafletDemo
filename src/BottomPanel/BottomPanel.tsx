@@ -2,16 +2,6 @@ import { FC, useState } from "react";
 import "./BottomPanel.css"
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import icon01d from './01d@2x.png';
-import icon01n from './01n@2x.png';
-import icon02d from './02d@2x.png';
-import icon03d from './03d@2x.png';
-import icon04n from './04d@2x.png';
-import icon09d from './09d@2x.png';
-import icon10d from './10d@2x.png';
-import icon11d from './11d@2x.png';
-import icon13d from './13d@2x.png';
-import icon50d from './50d@2x.png';
 import GraphComponent from "./GraphComponent";
 import DailyForecast from "./DailyForecast";
 
@@ -88,6 +78,7 @@ const weatherTypes = [
 const BottomPanel: FC = () => {
     const currentWeather = useSelector((state: RootState) => state.mapState.weatherData);
     const [showTemps, setShowTemps] = useState(true);
+    const [hidePanel, setHidePanel] = useState(false);
     const hourlyTemps = currentWeather?.hourly.map(hourlyTemp => hourlyTemp.temp)
     const times = currentWeather?.hourly.map(hourlyTemp => new Date(hourlyTemp.dt * 1000).toLocaleTimeString());
     let xAxisLabels: number[] = [];
@@ -105,8 +96,10 @@ const BottomPanel: FC = () => {
     }
     const toggleDisplay = () => setShowTemps(!showTemps);
     console.log("showTemps", showTemps);
+    const handleCollapse = () => setHidePanel(!hidePanel);
     return (
-        <div className="bottom-panel">
+        <div className={!hidePanel ? "bottom-panel" : "bottom-panel hidden"}>
+            <div className="tab-button" onClick={handleCollapse}>Current conditions</div>
             {hourlyTemps && times && (
                 <>
                 <span className="switch-display" onClick={toggleDisplay}>Go to Daily Forecast</span>
