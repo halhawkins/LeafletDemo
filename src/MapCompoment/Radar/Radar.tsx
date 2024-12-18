@@ -1,10 +1,14 @@
+import { tileLayer } from "leaflet";
 import { FC, useEffect, useRef, useState } from "react";
 import { TileLayer } from "react-leaflet";
+import { TileLayer as LeafletTileLayer} from "leaflet";
 
 const Radar: FC = () => {
     const radarTimeLine = useRef<{ path: string }[]>([]);
+    // const tileLayerRef = useRef<typeof TileLayer>(null);
     const [frame, setFrame] = useState(0);
     const [tlLoading, setTlLoading] = useState(true);
+    const tileLayerRef = useRef<LeafletTileLayer>(null); // so i can bring to front.
     useEffect(() => {
         (async () => {
             if (tlLoading) {
@@ -15,16 +19,20 @@ const Radar: FC = () => {
                     }
                 console.log("radarTimeLine", radarTimeLine.current);
                 setTlLoading(false);
+                if (tileLayerRef.current) {
+                    // tileLayerRef
+                }
             }
         })()
     }, [])
 
     return (
         <>
-        { radarTimeLine.current[frame]?.path && <TileLayer opacity={0.6} url={`https://tilecache.rainviewer.com${radarTimeLine.current[frame].path}/256/{z}/{x}/{y}/1/1_1.png`} />}
+        { radarTimeLine.current[frame]?.path && <TileLayer ref={tileLayerRef} opacity={0.6} url={`https://tilecache.rainviewer.com${radarTimeLine.current[frame].path}/256/{z}/{x}/{y}/1/1_1.png`} />}
         </>
     )
 }
 
 
 export default Radar;
+

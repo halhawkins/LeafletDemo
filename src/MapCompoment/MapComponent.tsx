@@ -1,4 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup, Polygon, useMapEvents } from "react-leaflet"
+import L from "leaflet"
 import { GeoPoint, GeoPoly } from "../GeoData"
 import MapInteraction from "./MapInteraction"
 import Radar from "./Radar/Radar"
@@ -10,12 +11,17 @@ import { RootState, store } from "../store"
 import { useEffect, useState } from "react"
 import Satellite from "./Satellite/Satellite"
 import RadarKey from "./Radar/RadarKey"
+import marker from "leaflet/dist/images/marker-icon.png"
+import Temperature, {TemperaureLegend} from "./Temperature/Temperature"
+import Precipitation, {PrecipitationLegend} from "./Precipitation/Precipitation"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
     const [location, setLocation] = useState<{ lat: number, lng: number }>({lat: 42.456882503116724, lng: -74.06433105468751});
     const [radarVisible, setRadarVisible] = useState(true);
     const [cloudsVisible, setCloudsVisible] = useState(true);
+    const [temperatureVisible, setTemperatureVisible] = useState(true);
+    const [precipitationVisible, setPrecipitationVisible] = useState(true);
     useEffect(() => {
         // console.log("layers changed", layers);
         if (layers.includes("radar")) {
@@ -27,6 +33,18 @@ function MapComponent(){
             setCloudsVisible(true);
         } else {
             setCloudsVisible(false);
+        }
+
+        if (layers.includes("temperature")) {
+            setTemperatureVisible(true);
+        } else {
+            setTemperatureVisible(false);
+        }
+
+        if (layers.includes("precipitation")) {
+            setPrecipitationVisible(true);
+        } else {
+            setPrecipitationVisible(false);
         }
     }, [layers])
 
@@ -81,9 +99,18 @@ function MapComponent(){
                 })() }
                 {radarVisible && 
                 <RadarKey position="topright"/>}
+                {temperatureVisible &&
+                <Temperature />}
+                {precipitationVisible &&
+                <Precipitation />}
                 <Selector position="topright" >
                     <LayerSelector />
                 </Selector>
+                <Marker position={location} icon={L.icon({iconUrl: marker, iconSize: [25, 41]})}>
+                    <Popup>
+                        You are here!
+                    </Popup>
+                </Marker>
             </MapContainer>
         </div>
     )

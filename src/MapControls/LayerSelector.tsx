@@ -49,7 +49,8 @@ const LayerSelector: FC = () => {
          <div className="expanded-menu" ref={expandedMenuRef}>
            <div onClick={() => setSelection('radar')}>Radar</div>
            <div onClick={() => setSelection('clouds')}>Clouds</div>
-           <div onClick={() => setSelection('stuff')}>Stuff</div>
+           <div onClick={() => setSelection('temperature')}>Temperature</div>
+           <div onClick={() => setSelection('precipitation')}>Precipitation</div>
          </div>
        )}
     </div>
