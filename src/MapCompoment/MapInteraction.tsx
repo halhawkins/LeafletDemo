@@ -2,7 +2,7 @@ import { FC, SetStateAction, useEffect, useState } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import { useDispatch } from "react-redux";
-import { setLocation } from "./MapStateSlice";
+import { setBounds, setLocation } from "./MapStateSlice";
 import LocalWeather from "../LocalWeather/LocalWeather";
 
 interface GeoJsonContext {
@@ -106,6 +106,8 @@ const MapInteraction: FC = () => {
                 const successCallback = (position: GeolocationPosition) => {
                     setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
                     mapObj.flyTo([position.coords.latitude, position.coords.longitude] as LatLngExpression, 11);
+                    const bbox = mapObj.getBounds();
+                    dispatch(setBounds({east: bbox.getEast(), west: bbox.getWest(), south: bbox.getSouth(), north: bbox.getNorth()}));
                     dispatch(
                         setLocation(
                             {

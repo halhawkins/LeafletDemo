@@ -78,7 +78,7 @@ const weatherTypes = [
 const BottomPanel: FC = () => {
     const currentWeather = useSelector((state: RootState) => state.mapState.weatherData);
     const [showTemps, setShowTemps] = useState(true);
-    const [hidePanel, setHidePanel] = useState(false);
+    const [hidePanel, setHidePanel] = useState(true);
     const hourlyTemps = currentWeather?.hourly.map(hourlyTemp => hourlyTemp.temp)
     const times = currentWeather?.hourly.map(hourlyTemp => new Date(hourlyTemp.dt * 1000).toLocaleTimeString());
     let xAxisLabels: number[] = [];

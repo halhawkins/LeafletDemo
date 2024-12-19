@@ -1,30 +1,31 @@
 import { FC, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { RootState } from "../store";
 import { TileLayer, useMap } from "react-leaflet";
 import { Control, ControlPosition, DomUtil } from "leaflet";
 import { createRoot, Root } from "react-dom/client";
 
-const Precipitation: FC = () => {
+const WindSpeed: FC = () => {
     const lat = useSelector((state: RootState) => state.mapState.lat);
     const lng = useSelector((state: RootState) => state.mapState.lng);
     return (
-        <div><TileLayer url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><PrecipitationLegend position="topleft" /></div>
+        <div><TileLayer url={`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><WindSpeedLegend position="topleft" /></div>
     );
 }
 
 
-const precipitationStops = [
-    { value: 0, color: "rgba(225, 200, 100, 0)" },
-    { value: 0.1, color: "rgba(200, 150, 150, 0.6)" },
-    { value: 0.2, color: "rgba(150, 150, 170, 0.65)" },
-    { value: 0.5, color: "rgba(120, 120, 190, 0.7)" },
-    { value: 1, color: "rgba(110, 110, 205, 0.75)" },
-    { value: 10, color: "rgba(80, 80, 225, 0.8)" },
-    { value: 140, color: "rgba(20, 20, 255, 0.9)" },
+const windSpeedStops = [
+    { value: 1, color: "rgba(255,255,255, 0)" },
+    { value: 5, color: "rgba(238,206,206, 0.4)" },
+    { value: 15, color: "rgba(179,100,188, 0.7)" },
+    { value: 16, color: "rgba(179,100,188, 0.7)" },
+    { value: 25, color: "rgba(63,33,59, 0.8)" },
+    { value: 50, color: "rgba(116,76,172, 0.9)" },
+    { value: 100, color: "rgba(70,0,175,1)" },
+    { value: 200, color: "rgba(13,17,38,1)" },
   ];  
 
-  export const PrecipitationLegend: FC<{ position: ControlPosition }> = ({ position }) => {
+  export const WindSpeedLegend: FC<{ position: ControlPosition }> = ({ position }) => {
       const map = useMap();
       const controlContainerRef = useRef<HTMLDivElement | null>(null);
       const rootRef = useRef<Root | null>(null);
@@ -41,7 +42,7 @@ const precipitationStops = [
               // Render the legend inside the control
               rootRef.current.render(
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {precipitationStops.map((stop, index) => (
+                      {windSpeedStops.map((stop, index) => (
                           <span
                               key={index}
                               style={{
@@ -53,10 +54,10 @@ const precipitationStops = [
                                   color: 'white',
                                   textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
                                   borderRadius: '4px',
-                                  width: '42px'
+                                  width: '48px'
                               }}
                           >
-                              {stop.value}mm
+                              {stop.value/100}m/s
                           </span>
                       ))}
                   </div>
@@ -85,4 +86,4 @@ const precipitationStops = [
       return null; // No direct rendering in the component's JSX
   };
   
-export default Precipitation;
+export default WindSpeed;

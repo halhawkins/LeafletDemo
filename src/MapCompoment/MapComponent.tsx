@@ -14,6 +14,9 @@ import RadarKey from "./Radar/RadarKey"
 import marker from "leaflet/dist/images/marker-icon.png"
 import Temperature, {TemperaureLegend} from "./Temperature/Temperature"
 import Precipitation, {PrecipitationLegend} from "./Precipitation/Precipitation"
+import Pressure from "./Pressure/Pressure"
+import WindSpeed from "../WindSpeed/WindSpeed"
+import Stations from "./Stations/Stations"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -22,6 +25,8 @@ function MapComponent(){
     const [cloudsVisible, setCloudsVisible] = useState(true);
     const [temperatureVisible, setTemperatureVisible] = useState(true);
     const [precipitationVisible, setPrecipitationVisible] = useState(true);
+    const [pressureVisible, setPressureVisible] = useState(true);
+    const [windVisible, setWindVisible] = useState(true);
     useEffect(() => {
         // console.log("layers changed", layers);
         if (layers.includes("radar")) {
@@ -45,6 +50,18 @@ function MapComponent(){
             setPrecipitationVisible(true);
         } else {
             setPrecipitationVisible(false);
+        }
+
+        if (layers.includes("pressure")) {
+            setPressureVisible(true);
+        } else {
+            setPressureVisible(false);
+        }
+
+        if (layers.includes("wind")) {
+            setWindVisible(true);
+        } else {
+            setWindVisible(false);
         }
     }, [layers])
 
@@ -103,6 +120,10 @@ function MapComponent(){
                 <Temperature />}
                 {precipitationVisible &&
                 <Precipitation />}
+                {pressureVisible &&
+                <Pressure />}
+                {windVisible &&
+                <WindSpeed />}
                 <Selector position="topright" >
                     <LayerSelector />
                 </Selector>
@@ -111,6 +132,7 @@ function MapComponent(){
                         You are here!
                     </Popup>
                 </Marker>
+                <Stations />
             </MapContainer>
         </div>
     )

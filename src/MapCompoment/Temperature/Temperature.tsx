@@ -28,57 +28,6 @@ const temperatureStops = [
     { value: 30, color: "rgba(252, 128, 20, 1)" },
   ];
   
-// export const TemperaureLegend: FC<{ position: ControlPosition }> = ({ position }) => {
-//     const map = useMap();
-//     const controlContainerRef = useRef<HTMLDivElement | null>(null);
-//     const rootRef = useRef<Root | null>(null);
-
-//     useEffect(() => {
-//         const control = new Control({ position });
-
-//         // Define onAdd before calling addControl
-//         control.onAdd = () => {
-//             console.log("Adding control");
-//             const container = DomUtil.create("div", "leaflet-control");
-//             controlContainerRef.current = container;
-//             rootRef.current = createRoot(container);
-
-//             // If you want to render something immediately, you can do so here:
-//             // rootRef.current.render(<YourCustomContent />);
-
-//             return container;
-//         };
-
-//         // Define onRemove before calling addControl
-//         control.onRemove = () => {
-//             if (rootRef.current) {
-//                 rootRef.current.unmount();
-//                 rootRef.current = null;
-//             }
-//             controlContainerRef.current = null;
-//         };
-
-//         // Now that onAdd and onRemove are defined, safely add the control
-//         map.addControl(control);
-
-//         return () => {
-//             map.removeControl(control);
-//         };
-//     }, [map, position]);
-
-//     return (
-//         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', zIndex: "1960", width: "48px" }}>
-//         <div style={{ display: 'flex', flexDirection:"column", justifyContent: 'space-between', width: '100%', zIndex: "1960" }}>
-//           {temperatureStops.map((stop, index) => (
-//             <span key={index} style={{ fontSize: '12px', textAlign: 'center', backgroundColor: stop.color }}>
-//               {stop.value}°C
-//             </span>
-//           ))}
-//         </div>
-//       </div>
-//       );
-// };
-
 export const TemperaureLegend: FC<{ position: ControlPosition }> = ({ position }) => {
     const map = useMap();
     const controlContainerRef = useRef<HTMLDivElement | null>(null);
@@ -106,6 +55,7 @@ export const TemperaureLegend: FC<{ position: ControlPosition }> = ({ position }
                                 padding: '2px 5px',
                                 margin: '1px 0',
                                 color: 'white',
+                                textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
                                 borderRadius: '4px',
                             }}
                         >

@@ -51,6 +51,8 @@ const LayerSelector: FC = () => {
            <div onClick={() => setSelection('clouds')}>Clouds</div>
            <div onClick={() => setSelection('temperature')}>Temperature</div>
            <div onClick={() => setSelection('precipitation')}>Precipitation</div>
+           <div onClick={() => setSelection('pressure')}>Pressure</div>
+           <div onClick={() => setSelection('wind')}>Wind Speed</div>
          </div>
        )}
     </div>

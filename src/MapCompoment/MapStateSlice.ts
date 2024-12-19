@@ -105,6 +105,10 @@ export interface WeatherData {
 const initialState = {
   lat: 0, 
   lng: 0,
+  east: 0,
+  west: 0,
+  north: 0,
+  south: 0,
   weatherData: null as WeatherData | null,
 };
 
@@ -116,6 +120,12 @@ export const mapStateSlice = createSlice({
         state.lat = action.payload.lat;
         state.lng = action.payload.lng;
     },
+    setBounds: (state, action) => {
+        state.east = action.payload.east;
+        state.west = action.payload.west;
+        state.north = action.payload.north;
+        state.south = action.payload.south;
+    },
     setWeatherData: (state, action) => {
         state.weatherData = action.payload;
     },
@@ -123,5 +133,5 @@ export const mapStateSlice = createSlice({
 });
 
 // Export the action creators and reducer
-export const { setLocation, setWeatherData } = mapStateSlice.actions;
+export const { setLocation, setBounds, setWeatherData } = mapStateSlice.actions;
 export default mapStateSlice.reducer;
