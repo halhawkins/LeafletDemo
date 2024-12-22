@@ -12,11 +12,13 @@ import { useEffect, useState } from "react"
 import Satellite from "./Satellite/Satellite"
 import RadarKey from "./Radar/RadarKey"
 import marker from "leaflet/dist/images/marker-icon.png"
-import Temperature, {TemperaureLegend} from "./Temperature/Temperature"
+import Temperature, {TemperatureLegend} from "./Temperature/Temperature"
 import Precipitation, {PrecipitationLegend} from "./Precipitation/Precipitation"
 import Pressure from "./Pressure/Pressure"
 import WindSpeed from "../WindSpeed/WindSpeed"
 import Stations from "./Stations/Stations"
+import CurrentConditions from "../CurrentCondisions/CurrentConditions"
+import LocationSearch from "../LocationSearch/LocationSearch"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -27,6 +29,7 @@ function MapComponent(){
     const [precipitationVisible, setPrecipitationVisible] = useState(true);
     const [pressureVisible, setPressureVisible] = useState(true);
     const [windVisible, setWindVisible] = useState(true);
+    const [stationsVisible, setStationsVisible] = useState(false);
     useEffect(() => {
         // console.log("layers changed", layers);
         if (layers.includes("radar")) {
@@ -63,6 +66,12 @@ function MapComponent(){
         } else {
             setWindVisible(false);
         }
+
+        if (layers.includes("stations")) {
+            setStationsVisible(true);
+        } else {
+            setStationsVisible(false);
+        }
     }, [layers])
 
     const getLocation = () => {
@@ -75,7 +84,6 @@ function MapComponent(){
                 },
                 (error) => {
                     console.error("Error getting location: ", error);
-                    // setLocation({lat: 42.456882503116724, lng: -74.06433105468751});
                 }
             );
         } else {
@@ -85,13 +93,13 @@ function MapComponent(){
 
     useEffect(() => {
         getLocation();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <div style={{width: "100%", height: '100%', position: "absolute"}}>
             <MapContainer center={GeoPoint} zoom={13} scrollWheelZoom={true} style={{ width:"100%", height: "100%"}}>
-                <TileLayer
+            <LocationSearch position="bottomleft"/>
+            <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
@@ -114,8 +122,6 @@ function MapComponent(){
                         return (<></>)
                     }
                 })() }
-                {radarVisible && 
-                <RadarKey position="topright"/>}
                 {temperatureVisible &&
                 <Temperature />}
                 {precipitationVisible &&
@@ -124,15 +130,15 @@ function MapComponent(){
                 <Pressure />}
                 {windVisible &&
                 <WindSpeed />}
-                <Selector position="topright" >
-                    <LayerSelector />
-                </Selector>
+                {stationsVisible &&
+                <Stations />}
+                <LayerSelector />
                 <Marker position={location} icon={L.icon({iconUrl: marker, iconSize: [25, 41]})}>
                     <Popup>
                         You are here!
                     </Popup>
                 </Marker>
-                <Stations />
+                <CurrentConditions position="bottomright"/>
             </MapContainer>
         </div>
     )

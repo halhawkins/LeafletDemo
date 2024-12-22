@@ -1,0 +1,15 @@
+.current-conditions-container {
+    height: 5rem;
+    width: 5rem;
+    text-align: center;
+    background-color: white;
+    border-width: 7px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 15px;
+}
+.current-temp-only {
+    font-size: 2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+}

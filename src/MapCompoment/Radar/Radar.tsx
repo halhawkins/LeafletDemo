@@ -2,7 +2,7 @@ import { tileLayer } from "leaflet";
 import { FC, useEffect, useRef, useState } from "react";
 import { TileLayer } from "react-leaflet";
 import { TileLayer as LeafletTileLayer} from "leaflet";
-
+import RadarKey from "./RadarKey";
 const Radar: FC = () => {
     const radarTimeLine = useRef<{ path: string }[]>([]);
     // const tileLayerRef = useRef<typeof TileLayer>(null);
@@ -29,6 +29,7 @@ const Radar: FC = () => {
     return (
         <>
         { radarTimeLine.current[frame]?.path && <TileLayer ref={tileLayerRef} opacity={0.6} url={`https://tilecache.rainviewer.com${radarTimeLine.current[frame].path}/256/{z}/{x}/{y}/1/1_1.png`} />}
+        <RadarKey position="topleft"/>
         </>
     )
 }

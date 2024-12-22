@@ -16,12 +16,7 @@
     transform: translateY(100%);
     transition: 500ms;
 }
-    /*
-    display: inline-block;
-    position: relative;
-    background-color: #f4f2d9;
-    top: -36px;
- */
+
 .tab-button {
     display: inline-block;
     position: relative;

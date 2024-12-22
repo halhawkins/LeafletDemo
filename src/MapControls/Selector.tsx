@@ -20,7 +20,7 @@ const Selector: React.FC<{ position: ControlPosition; children: React.ReactNode 
         };
         control.onRemove = () => {
             if (rootRef.current) {
-                rootRef.current.unmount();
+                rootRef.current?.unmount();
                 rootRef.current = null;
             }
             controlContainerRef.current = null;

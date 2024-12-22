@@ -16,7 +16,6 @@ const LocalWeather: FC = () => {
             const lng = loc.lng;
             console.log("LOCATION = ", lat, lng);
             if (tlLoading && lat !== 0 && lng !== 0) {
-                // console.log(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude={part}&appid=dfba23226395d24a4c6293b1c3e8821b`)
                 const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&units=imperial&appid=dfba23226395d24a4c6293b1c3e8821b`);
 
                 const data = await response.json();

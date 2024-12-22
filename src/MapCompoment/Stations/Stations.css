@@ -1,0 +1,18 @@
+.station-props {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+.station-prop-row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: start;
+    margin-bottom: 5px;
+}
+.station-prop-row div:nth-child(1) {
+    width: 100px;
+    font-weight: bold;
+}
+ .station-prop-row div:nth-child(2) {
+    width:auto;
+}

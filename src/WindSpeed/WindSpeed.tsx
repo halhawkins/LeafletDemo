@@ -33,13 +33,11 @@ const windSpeedStops = [
       useEffect(() => {
           const control = new Control({ position });
   
-          // Define onAdd before calling addControl
           control.onAdd = () => {
               const container = DomUtil.create("div", "leaflet-control");
               controlContainerRef.current = container;
               rootRef.current = createRoot(container);
   
-              // Render the legend inside the control
               rootRef.current.render(
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       {windSpeedStops.map((stop, index) => (
@@ -66,16 +64,14 @@ const windSpeedStops = [
               return container;
           };
   
-          // Define onRemove before calling addControl
           control.onRemove = () => {
-              if (rootRef.current) {
-                  rootRef.current.unmount();
-                  rootRef.current = null;
-              }
-              controlContainerRef.current = null;
-          };
+            if (rootRef.current) {
+                rootRef.current?.unmount();
+                rootRef.current = null;
+            }
+            controlContainerRef.current = null;
+        };
   
-          // Add control to the map
           map.addControl(control);
   
           return () => {

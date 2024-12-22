@@ -48,7 +48,7 @@ const DailyForecast: FC = () => {
         uvi: 0.23
     }
     const dailyForecastData = useSelector((state:RootState) => state.mapState.weatherData?.daily);
-    console.log("WERQWEF QWE V",dailyForecastData);
+
     // Render daily forecast component here
     return (
         <div className="daily-forecast">
@@ -63,7 +63,6 @@ const DailyForecast: FC = () => {
                     {forecast.humidity && <p style={{fontSize: "0.7rem"}}>Hum. {forecast.humidity}%</p>}
                     {forecast.wind_speed && <p style={{fontSize: "0.7rem"}}>WS {Math.round(forecast.wind_speed)}mph</p>}
                     {forecast.wind_deg && <p style={{fontSize: "0.7rem"}}>WD {forecast.wind_deg}°</p>}
-                    {/* {forecast.snow && <p style={{fontSize: "0.7rem"}}>Snow {forecast.snow}</p>} */}
                     {forecast.rain && <p style={{fontSize: "0.7rem"}}>Rain {forecast.rain}mm</p>}
                 </div>
             </div>

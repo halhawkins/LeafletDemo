@@ -13,29 +13,66 @@ const RadarKey: FC<{ position: ControlPosition }> = ({ position }) => {
     useEffect(() => {
         const control = new Control({ position });
 
-        // Define onAdd before calling addControl
         control.onAdd = () => {
+            const n = 5;
             console.log("Adding control");
             const container = DomUtil.create("div", "leaflet-control");
             controlContainerRef.current = container;
             rootRef.current = createRoot(container);
-
-            // If you want to render something immediately, you can do so here:
-            // rootRef.current.render(<YourCustomContent />);
+            rootRef.current.render(
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {dBZScheme[0].filter((_, index) => index % n === 0).map((stop, index) => (
+                    <div 
+                        key={`rain-${index}`}
+                        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                    >
+                    <span
+                        style={{
+                            fontSize: '12px',
+                            textAlign: 'center',
+                            backgroundColor: stop.Rain,
+                            padding: '2px 5px',
+                            margin: '1px 0',
+                            color: 'black',
+                            textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+                            borderRadius: '4px',
+                            width: '42px'
+                        }}
+                    >
+                        {stop.dBZ}dBZ
+                    </span>
+                    <span
+                    key={`snow-${index}`}
+                    style={{
+                        fontSize: '12px',
+                        textAlign: 'center',
+                        backgroundColor: stop.Snow,
+                        padding: '2px 5px',
+                        margin: '1px 0',
+                        color: 'black',
+                        textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+                        borderRadius: '4px',
+                        width: '42px'
+                    }}
+                >
+                    {stop.dBZ}dBZ
+                </span>
+                </div>
+            ))}
+            </div>
+        );
 
             return container;
         };
 
-        // Define onRemove before calling addControl
         control.onRemove = () => {
             if (rootRef.current) {
-                rootRef.current.unmount();
+                rootRef.current?.unmount();
                 rootRef.current = null;
             }
             controlContainerRef.current = null;
         };
 
-        // Now that onAdd and onRemove are defined, safely add the control
         map.addControl(control);
 
         return () => {
@@ -43,42 +80,7 @@ const RadarKey: FC<{ position: ControlPosition }> = ({ position }) => {
         };
     }, [map, position]);
 
-    return (
-        <div className="key-container">
-            <div className="key-flex-container">
-                <div className="dbz-values">
-                    <div key={'legendkey'} className="dbz-value">
-                        <div className="dbz-row" style={{height: '48px', marginBottom: '-18px', paddingTop: '4px'}}>
-                            <div className="dbz-bar" style={{backgroundColor: 'white', height: '26px'}}><span className=" flipped">Rain</span></div>
-                            <div className="dbx-bar" style={{backgroundColor: 'white', height: "32px"}}><span className=" flipped" style={{marginTop: '6px'}}>Snow</span></div>
-                        </div>
-                    </div>
-                    {dBZScheme[0].map((value, index) => {
-                        if (index === 0) {
-                            return (
-                                <div key={index} className="dbz-value">
-                                    <div className="dbz-row">
-                                        <div className="dbz-bar" style={{backgroundColor: value.Rain}}>{value.dBZ}</div>
-                                        <div className="dbx-bar" style={{backgroundColor: value.Snow}}>{value.dBZ}</div>
-                                    </div>
-                                </div>
-                        );
-                        }
-                        if (index % 4 === 0) {
-                            return (
-                                <div key={index} className="dbz-value">
-                                    <div className="dbz-row">
-                                        <div className="dbz-bar" style={{backgroundColor: value.Rain}}>{value.dBZ}</div>
-                                        <div className="dbx-bar" style={{backgroundColor: value.Snow}}>{value.dBZ}</div>
-                                    </div>
-                                </div>
-                            );
-                        }                    
-                    })}
-                </div>
-            </div>
-        </div>
-    );
+    return null;
 };
 
 export default RadarKey;

@@ -9,7 +9,7 @@ const Temperature: FC = () => {
     const lat = useSelector((state: RootState) => state.mapState.lat);
     const lng = useSelector((state: RootState) => state.mapState.lng);
     return (
-        <div><TileLayer opacity={1} url={`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><TemperaureLegend position="topleft"/></div>
+        <div><TileLayer opacity={1} url={`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><TemperatureLegend position="topleft"/></div>
     );
 }
 
@@ -28,7 +28,7 @@ const temperatureStops = [
     { value: 30, color: "rgba(252, 128, 20, 1)" },
   ];
   
-export const TemperaureLegend: FC<{ position: ControlPosition }> = ({ position }) => {
+export const TemperatureLegend: FC<{ position: ControlPosition }> = ({ position }) => {
     const map = useMap();
     const controlContainerRef = useRef<HTMLDivElement | null>(null);
     const rootRef = useRef<Root | null>(null);
@@ -36,54 +36,59 @@ export const TemperaureLegend: FC<{ position: ControlPosition }> = ({ position }
     useEffect(() => {
         const control = new Control({ position });
 
-        // Define onAdd before calling addControl
-        control.onAdd = () => {
-            const container = DomUtil.create("div", "leaflet-control");
-            controlContainerRef.current = container;
-            rootRef.current = createRoot(container);
+            if(!map) return;
+                map.whenReady(() => {
+                control.onAdd = () => {
+                const container = DomUtil.create("div", "leaflet-control temp-legend");
+                controlContainerRef.current = container;
+                rootRef.current = createRoot(container);
 
-            // Render the legend inside the control
-            rootRef.current.render(
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    {temperatureStops.map((stop, index) => (
-                        <span
-                            key={index}
-                            style={{
-                                fontSize: '12px',
-                                textAlign: 'center',
-                                backgroundColor: stop.color,
-                                padding: '2px 5px',
-                                margin: '1px 0',
-                                color: 'white',
-                                textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
-                                borderRadius: '4px',
-                            }}
-                        >
-                            {stop.value}°C
-                        </span>
-                    ))}
-                </div>
-            );
+                setTimeout(() => {
+                    if (rootRef.current) {
+                    rootRef.current.render(
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: "1150" }}>
+                            {temperatureStops.map((stop, index) => (
+                                <span
+                                    key={index}
+                                    style={{
+                                        fontSize: '12px',
+                                        textAlign: 'center',
+                                        backgroundColor: stop.color,
+                                        padding: '2px 5px',
+                                        margin: '1px 0',
+                                        color: 'white',
+                                        textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+                                        borderRadius: '4px',
+                                    }}
+                                >
+                                    {stop.value}°C
+                                </span>
+                            ))}
+                        </div>
+                    );
+                }
+    
+                },100)
 
-            return container;
-        };
-
-        // Define onRemove before calling addControl
-        control.onRemove = () => {
-            if (rootRef.current) {
-                rootRef.current.unmount();
-                rootRef.current = null;
+                control.onRemove = () => {
+                    if (rootRef.current) {
+                        rootRef.current?.unmount();
+                        rootRef.current = null;
+                    }
+                    controlContainerRef.current = null;
+                };
+                return container;
             }
-            controlContainerRef.current = null;
-        };
+            })
 
-        // Add control to the map
-        map.addControl(control);
+            map.addControl(control);
 
         return () => {
             map.removeControl(control);
         };
-    }, [map, position]);
+
+    }, [map]);
+
 
     return null; // No direct rendering in the component's JSX
 };

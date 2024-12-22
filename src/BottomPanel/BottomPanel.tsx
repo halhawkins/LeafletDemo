@@ -92,7 +92,6 @@ const BottomPanel: FC = () => {
         const step = difference / divisions;
 
         const newLocal = divisions + 1;
-        // xAxisLabels = Array.from({ length: newLocal }, (_, i) => lowEnd + i * step);
     }
     const toggleDisplay = () => setShowTemps(!showTemps);
     console.log("showTemps", showTemps);
