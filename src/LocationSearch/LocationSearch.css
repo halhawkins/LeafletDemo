@@ -70,3 +70,24 @@
     color: var(--color);
     left: 5em;
   }
+
+  .search-results {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    border: 8px solid var(--color);
+    border-radius: 18px;
+    top: -52px;
+  }
+.close-search-btn {
+  position: absolute;
+  /* background-color: white; */
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  font-size: 1.3rem;
+  top: -1rem;
+  right: -1rem;
+  border-radius: 50%;
+}

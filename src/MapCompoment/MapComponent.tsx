@@ -19,6 +19,7 @@ import WindSpeed from "../WindSpeed/WindSpeed"
 import Stations from "./Stations/Stations"
 import CurrentConditions from "../CurrentCondisions/CurrentConditions"
 import LocationSearch from "../LocationSearch/LocationSearch"
+import LocationSearchResults from "../LocationSearch/LocationSearchResults"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -30,6 +31,7 @@ function MapComponent(){
     const [pressureVisible, setPressureVisible] = useState(true);
     const [windVisible, setWindVisible] = useState(true);
     const [stationsVisible, setStationsVisible] = useState(false);
+    const showSearchResults = useSelector((state: RootState) => state.search.inSearch)
     useEffect(() => {
         // console.log("layers changed", layers);
         if (layers.includes("radar")) {
@@ -99,6 +101,7 @@ function MapComponent(){
         <div style={{width: "100%", height: '100%', position: "absolute"}}>
             <MapContainer center={GeoPoint} zoom={13} scrollWheelZoom={true} style={{ width:"100%", height: "100%"}}>
             <LocationSearch position="bottomleft"/>
+            {showSearchResults && <LocationSearchResults position="bottomleft"/>}
             <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
