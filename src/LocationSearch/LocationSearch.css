@@ -73,12 +73,20 @@
 
   .search-results {
     position: relative;
-    width: 200px;
+    width: 350px;
     height: 200px;
     background-color: white;
     border: 8px solid var(--color);
     border-radius: 18px;
     top: -52px;
+  }
+  .result-item {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .result-item:hover {
+    background-color: #f9f9f9;
   }
 .close-search-btn {
   position: absolute;

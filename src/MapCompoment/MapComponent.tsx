@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, Polygon, useMapEvents } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Popup, Polygon, useMapEvents, useMap } from "react-leaflet"
 import L from "leaflet"
 import { GeoPoint, GeoPoly } from "../GeoData"
 import MapInteraction from "./MapInteraction"
@@ -24,6 +24,7 @@ function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
     const [location, setLocation] = useState<{ lat: number, lng: number }>({lat: 42.456882503116724, lng: -74.06433105468751});
+    const trackLocation = {lat: useSelector((state: RootState) => state.mapState.lat), lng: useSelector((state: RootState) => state.mapState.lng)};
     const [radarVisible, setRadarVisible] = useState(true);
     const [cloudsVisible, setCloudsVisible] = useState(true);
     const [temperatureVisible, setTemperatureVisible] = useState(true);
@@ -142,10 +143,27 @@ function MapComponent(){
                     </Popup>
                 </Marker>
                 <CurrentConditions position="bottomright"/>
+                <FlyToLocation location={trackLocation} />
             </MapContainer>
         </div>
     )
 }
 
+const FlyToLocation: React.FC<{ location: { lat: number; lng: number } }> = ({ location }) => {
+    const map = useMap();
+  
+    useEffect(() => {
+        console.log("Flying to location", location);
+     // Fly to the current position when component mounts or whenever the location changes
+      if (map) {
+        map.flyTo([location.lat, location.lng], map.getZoom(), {
+          animate: true,
+          duration: 1.5,
+        });
+      }
+    }, [location, map]);
+  
+    return null;
+  };  
 
 export default MapComponent;
