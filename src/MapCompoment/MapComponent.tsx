@@ -137,7 +137,7 @@ function MapComponent(){
                 {stationsVisible &&
                 <Stations />}
                 <LayerSelector />
-                <Marker position={location} icon={L.icon({iconUrl: marker, iconSize: [25, 41]})}>
+                <Marker position={trackLocation} icon={L.icon({iconUrl: marker, iconSize: [25, 41]})}>
                     <Popup>
                         You are here!
                     </Popup>
