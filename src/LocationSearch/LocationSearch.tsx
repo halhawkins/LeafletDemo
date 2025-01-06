@@ -7,7 +7,7 @@ import { RootState } from "../store";
 import "./LocationSearch.css";
 import searchIcon from "../assets/search-icon.svg";
 import { useDispatch } from "react-redux";
-import { setSearchQuery, toggleInSearch } from "../Slices/SeachSlice"
+import { setSearchQuery, toggleInSearch } from "../Slices/SearchSlice"
 
 const LocationSearch: FC<{ position: ControlPosition }> = ({position}) => {
     const map = useMap();

@@ -4,7 +4,7 @@ import { createRoot, Root } from "react-dom/client";
 import { useMap } from "react-leaflet";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { addSearchResults, toggleInSearch } from "../Slices/SeachSlice"
+import { addSearchResults, toggleInSearch } from "../Slices/SearchSlice"
 import { setLocation } from "../MapCompoment/MapStateSlice";
 //"../store/searchSlice"; // Adjust based on your Redux slice
 
@@ -13,11 +13,11 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
     const rootRef = useRef<Root | null>(null);
     const controlContainerRef = useRef<HTMLDivElement | null>(null);
     const { searchQuery, inSearch, searchResults } = useSelector((state: RootState) => state.search);
+    const closeButtonRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const control = new L.Control({ position });
-
         control.onAdd = () => {
             const container = DomUtil.create("div", "leaflet-control");
             controlContainerRef.current = container;
@@ -28,6 +28,7 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
                     {inSearch ? <p>Searching for {searchQuery}</p> : <p>Search for a location</p>}
                 </div>
             );
+
             return container;
         };
         control.onRemove = () => {
@@ -49,6 +50,10 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
         };
     }, [map, position]);
 
+    const handleCloseSearch = () => {
+        dispatch(toggleInSearch(false));
+    }
+
     useEffect(() => {
         if (rootRef.current) {
             rootRef.current.render(
@@ -66,10 +71,11 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
                 dispatch(toggleInSearch(true));
                 try {
                     const response = await fetch(
-                        `http://api.openweathermap.org/geo/1.0/direct?q=${searchQuery}&limit=25&appid=dfba23226395d24a4c6293b1c3e8821b`
+                        `https://api.geoapify.com/v1/geocode/autocomplete?text=${searchQuery}&apiKey=47689dbbef774eb0a7a6854d23686cc5`
+                        // `http://api.openweathermap.org/geo/1.0/direct?q=${searchQuery}&limit=25&appid=dfba23226395d24a4c6293b1c3e8821b`
                     );
                     const data = await response.json();
-                    dispatch(addSearchResults(data));
+                    dispatch(addSearchResults(data.features));
                 } catch (error) {
                     console.error("Error fetching location data:", error);
                 }
@@ -81,24 +87,33 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
 // 
     const handleResultClick = (result: any) => {
         return () => {
-            dispatch(setLocation({lat: result.lat, lng: result.lon}));
-            // console.log("🏳️‍🌈result🏳️‍🌈", result);
+            console.log("Selected location:", result.geometry);
+            dispatch(setLocation({lat: result.geometry.coordinates[1], lng: result.geometry.coordinates[0]}));
         }
     }
 
     useEffect(() => {
+
+        if (closeButtonRef.current) {
+            // closeButtonRef.current.addEventListener("click", () => {
+            //     console.log("Closing search results");
+            //     dispatch(toggleInSearch(false));
+            // });
+            console.log("closeButtonRef.current", closeButtonRef.current);
+            L.DomEvent.disableClickPropagation(closeButtonRef.current);
+        }
         if (rootRef.current) {
             rootRef.current.render(
                 <div className="search-results">
-                    <div className="close-search-btn">&#8855;</div>
+                    <div className="close-search-btn" ref={closeButtonRef} onClick={handleCloseSearch}>&#8855;</div>
                     {searchResults.length > 0 ? (
                         <div style={{display: "flex", flexDirection: "column", overflowY: "auto", maxHeight: "200px"}}>
                             {searchResults.map((result, index) => {
                                 return (
                                 <div onClick={handleResultClick(result)} className="result-item" style={{display: "flex", alignItems: "flex-start", gap: "0.5rem"}} key={index}>
-                                    <div>{result.name}</div>
-                                    <div>{result.state}</div>
-                                    <div>{result.country}</div>
+                                    <div>{result.properties.formatted}</div>
+                                    {/* <div>{result.}</div> */}
+                                    {/* <div>{result.country}</div> */}
                                 </div>                                
                             )
                         })}

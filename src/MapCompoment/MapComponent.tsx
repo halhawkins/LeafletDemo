@@ -17,9 +17,11 @@ import Precipitation, {PrecipitationLegend} from "./Precipitation/Precipitation"
 import Pressure from "./Pressure/Pressure"
 import WindSpeed from "../WindSpeed/WindSpeed"
 import Stations from "./Stations/Stations"
-import CurrentConditions from "../CurrentCondisions/CurrentConditions"
+import CurrentConditions from "../CurrentConditions/CurrentConditions"
 import LocationSearch from "../LocationSearch/LocationSearch"
 import LocationSearchResults from "../LocationSearch/LocationSearchResults"
+import { useDispatch } from "react-redux"
+import { toggleInSearch } from "../Slices/SearchSlice"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -138,9 +140,9 @@ function MapComponent(){
                 <Stations />}
                 <LayerSelector />
                 <Marker position={trackLocation} icon={L.icon({iconUrl: marker, iconSize: [25, 41]})}>
-                    <Popup>
+                    {/* <Popup>
                         You are here!
-                    </Popup>
+                    </Popup> */}
                 </Marker>
                 <CurrentConditions position="bottomright"/>
                 <FlyToLocation location={trackLocation} />
@@ -151,11 +153,15 @@ function MapComponent(){
 
 const FlyToLocation: React.FC<{ location: { lat: number; lng: number } }> = ({ location }) => {
     const map = useMap();
+    const dispatch = useDispatch();
   
     useEffect(() => {
         console.log("Flying to location", location);
      // Fly to the current position when component mounts or whenever the location changes
       if (map) {
+        // map.on('moveend', () => {
+        //     dispatch(toggleInSearch(false))
+        // })
         map.flyTo([location.lat, location.lng], map.getZoom(), {
           animate: true,
           duration: 1.5,

@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { selectorSlice } from "./Slices/SelectorSlice";
 import { mapStateSlice } from "./MapCompoment/MapStateSlice";
-import { searchSlice } from "./Slices/SeachSlice";
+import { searchSlice } from "./Slices/SearchSlice";
 
 export const store = configureStore({
     reducer: {
