@@ -1,9 +1,10 @@
-import { FC, useRef, useEffect } from "react";
+import { FC, useRef, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { TileLayer, useMap } from "react-leaflet";
 import { Control, ControlPosition, DomUtil } from "leaflet";
 import { createRoot, Root } from "react-dom/client";
+import { createPortal } from "react-dom";
 
 const Temperature: FC = () => {
     const lat = useSelector((state: RootState) => state.mapState.lat);
@@ -30,67 +31,46 @@ const temperatureStops = [
   
 export const TemperatureLegend: FC<{ position: ControlPosition }> = ({ position }) => {
     const map = useMap();
-    const controlContainerRef = useRef<HTMLDivElement | null>(null);
-    const rootRef = useRef<Root | null>(null);
+    const controlDiv = useMemo(() => {
+        return DomUtil.create("div", "leaflet-control");
+    },[]);
 
     useEffect(() => {
         const control = new Control({ position });
+        control.onAdd = () => {
+            return controlDiv;
+        }
 
-            if(!map) return;
-                map.whenReady(() => {
-                control.onAdd = () => {
-                const container = DomUtil.create("div", "leaflet-control temp-legend");
-                controlContainerRef.current = container;
-                rootRef.current = createRoot(container);
-
-                setTimeout(() => {
-                    if (rootRef.current) {
-                    rootRef.current.render(
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: "1150" }}>
-                            {temperatureStops.map((stop, index) => (
-                                <span
-                                    key={index}
-                                    style={{
-                                        fontSize: '12px',
-                                        textAlign: 'center',
-                                        backgroundColor: stop.color,
-                                        padding: '2px 5px',
-                                        margin: '1px 0',
-                                        color: 'white',
-                                        textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
-                                        borderRadius: '4px',
-                                    }}
-                                >
-                                    {stop.value}°C
-                                </span>
-                            ))}
-                        </div>
-                    );
-                }
-    
-                },100)
-
-                control.onRemove = () => {
-                    if (rootRef.current) {
-                        rootRef.current?.unmount();
-                        rootRef.current = null;
-                    }
-                    controlContainerRef.current = null;
-                };
-                return container;
-            }
-            })
-
-            map.addControl(control);
+        map.addControl(control);
 
         return () => {
             map.removeControl(control);
         };
+    }, [map, position, controlDiv]);
 
-    }, [map]);
-
-
-    return null; // No direct rendering in the component's JSX
+        return createPortal(
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: "1150" }}>
+                {temperatureStops.map((stop, index) => (
+                    <span
+                        key={index}
+                        style={{
+                            width: '32px',
+                            fontSize: '12px',
+                            textAlign: 'center',
+                            backgroundColor: stop.color,
+                            padding: '2px 5px',
+                            margin: '1px 0',
+                            color: 'white',
+                            textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+                            borderRadius: '4px',
+                        }}
+                    >
+                        {stop.value}°C
+                    </span>
+                ))}
+            </div>
+        , controlDiv
+        )
 };
 
 export default Temperature;
