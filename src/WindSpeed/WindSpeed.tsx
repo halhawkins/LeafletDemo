@@ -1,15 +1,16 @@
-import { FC, useRef, useEffect } from "react";
+import { FC, useRef, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { TileLayer, useMap } from "react-leaflet";
 import { Control, ControlPosition, DomUtil } from "leaflet";
 import { createRoot, Root } from "react-dom/client";
+import { createPortal } from "react-dom";
 
 const WindSpeed: FC = () => {
     const lat = useSelector((state: RootState) => state.mapState.lat);
     const lng = useSelector((state: RootState) => state.mapState.lng);
     return (
-        <div><TileLayer url={`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><WindSpeedLegend position="topleft" /></div>
+        <div><TileLayer opacity={1} url={`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}/><WindSpeedLegend position="topleft" /></div>
     );
 }
 
@@ -27,59 +28,99 @@ const windSpeedStops = [
 
   export const WindSpeedLegend: FC<{ position: ControlPosition }> = ({ position }) => {
       const map = useMap();
-      const controlContainerRef = useRef<HTMLDivElement | null>(null);
-      const rootRef = useRef<Root | null>(null);
+    //   const controlContainerRef = useRef<HTMLDivElement | null>(null);
+    //   const rootRef = useRef<Root | null>(null);
   
-      useEffect(() => {
-          const control = new Control({ position });
+    //   useEffect(() => {
+    //       const control = new Control({ position });
   
-          control.onAdd = () => {
-              const container = DomUtil.create("div", "leaflet-control");
-              controlContainerRef.current = container;
-              rootRef.current = createRoot(container);
+    //       control.onAdd = () => {
+    //           const container = DomUtil.create("div", "leaflet-control");
+    //           controlContainerRef.current = container;
+    //           rootRef.current = createRoot(container);
   
-              rootRef.current.render(
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {windSpeedStops.map((stop, index) => (
-                          <span
-                              key={index}
-                              style={{
-                                  fontSize: '12px',
-                                  textAlign: 'center',
-                                  backgroundColor: stop.color,
-                                  padding: '2px 5px',
-                                  margin: '1px 0',
-                                  color: 'white',
-                                  textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
-                                  borderRadius: '4px',
-                                  width: '48px'
-                              }}
-                          >
-                              {stop.value/100}m/s
-                          </span>
-                      ))}
-                  </div>
-              );
+    //           rootRef.current.render(
+    //               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    //                   {windSpeedStops.map((stop, index) => (
+    //                       <span
+    //                           key={index}
+    //                           style={{
+    //                               fontSize: '12px',
+    //                               textAlign: 'center',
+    //                               backgroundColor: stop.color,
+    //                               padding: '2px 5px',
+    //                               margin: '1px 0',
+    //                               color: 'white',
+    //                               textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+    //                               borderRadius: '4px',
+    //                               width: '48px'
+    //                           }}
+    //                       >
+    //                           {stop.value/100}m/s
+    //                       </span>
+    //                   ))}
+    //               </div>
+    //           );
   
-              return container;
-          };
+    //           return container;
+    //       };
   
-          control.onRemove = () => {
-            if (rootRef.current) {
-                rootRef.current?.unmount();
-                rootRef.current = null;
-            }
-            controlContainerRef.current = null;
-        };
+    //       control.onRemove = () => {
+    //         if (rootRef.current) {
+    //             rootRef.current?.unmount();
+    //             rootRef.current = null;
+    //         }
+    //         controlContainerRef.current = null;
+    //     };
   
-          map.addControl(control);
+    //       map.addControl(control);
   
-          return () => {
-              map.removeControl(control);
-          };
-      }, [map, position]);
+    //       return () => {
+    //           map.removeControl(control);
+    //       };
+    //   }, [map, position]);
   
-      return null; // No direct rendering in the component's JSX
+    //   return null; // No direct rendering in the component's JSX
+    const controlDiv = useMemo(() => {
+        return DomUtil.create("div", "leaflet-control");
+    }, []);
+
+    useEffect(() => {
+        const control = new Control({ position });
+        control.onAdd = () => {
+            return controlDiv;
+        }
+
+        map.addControl(control);
+
+        return () => {
+            map.removeControl(control);
+        }
+    }, [map, position, controlDiv]);
+
+    return createPortal(
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {windSpeedStops.map((stop, index) => (
+                <span
+                    key={index}
+                    style={{
+                        fontSize: '12px',
+                        textAlign: 'center',
+                        backgroundColor: stop.color,
+                        padding: '2px 5px',
+                        margin: '1px 0',
+                        color: 'white',
+                        textShadow: '-1px -1px 0 rgba(0, 0, 0, 0.5)',
+                        borderRadius: '4px',
+                        width: '48px'
+                    }}
+                >
+                    {stop.value/100}m/s
+                </span>
+            ))}
+        </div>,
+        controlDiv
+    )
   };
   
 export default WindSpeed;
