@@ -2,14 +2,41 @@
     height: 5rem;
     width: 5rem;
     text-align: center;
-    background-color: white;
+    /* background-color: white; */
+    background-color: lightgray;
     border-width: 7px;
     border-style: solid;
     border-color: black;
     border-radius: 15px;
+    transition: all 100ms;
+}
+.current-conditions-container:hover {
+    height: 24rem;
+    width: 10rem;
+    /* background-color: #ffffff; */
+    transition: all 100ms;
+}
+.current-conditions-container.expand {
+    height: 24rem;
+    width: 10rem;
+    /* background-color: #ffffff; */
+    transition: all 100ms;
 }
 .current-temp-only {
     font-size: 2rem;
     margin-top: 1rem;
     font-weight: bold;
+}
+
+.conditions-details {
+    display: none; /* hidden by default */
+    /* margin-top: 1rem; */
+}
+  
+.current-conditions-container:hover .conditions-details {
+    display: flex; /* shown on hover */
+    padding: .3rem;
+    gap: .5rem;
+    flex-direction: column;
+    align-items: flex-start;
 }

@@ -7,6 +7,8 @@ import { setWeatherData } from "../MapCompoment/MapStateSlice";
 
 const LocalWeather: FC = () => {
     const dispatch = useDispatch()
+    const latSelector = useSelector((state: RootState) => state.mapState.lat);
+    const lngSelector = useSelector((state: RootState) => state.mapState.lng);
     const location = {lat: useSelector((state: RootState) => state.mapState.lat), lng: useSelector((state: RootState) => state.mapState.lng)};
     const [tlLoading, setTlLoading] = useState(true);
     useEffect(() => {
@@ -25,7 +27,7 @@ const LocalWeather: FC = () => {
                 setTlLoading(false);
             }
         })()
-    }, [location])
+    }, [location, latSelector, lngSelector])
 
     
     return (

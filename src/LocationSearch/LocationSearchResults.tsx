@@ -25,7 +25,6 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
 
         map.addControl(control);
 
-        console.log("🤓Location search results control added", controlContainerRef.current, closeButtonRef.current);
         if (controlContainerRef.current) {
             L.DomEvent.disableClickPropagation(controlContainerRef.current);
         }
