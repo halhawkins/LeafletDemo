@@ -108,6 +108,7 @@ function MapComponent(){
             <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    // url="http://localhost:8000/api/weather/base/{s}/{z}/{x}/{y}.png"
                 />
                 <MapInteraction />
                 { (() => {

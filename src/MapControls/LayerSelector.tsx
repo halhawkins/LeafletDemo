@@ -83,7 +83,7 @@ const LayerSelector: FC = () => {
             <div onClick={() => { dispatch(toggleLayer('precipitation')); setExpanded(false); }}>Precipitation</div>
             <div onClick={() => { dispatch(toggleLayer('pressure')); setExpanded(false); }}>Pressure</div>
             <div onClick={() => { dispatch(toggleLayer('wind')); setExpanded(false); }}>Wind Speed</div>
-            <div onClick={() => { dispatch(toggleLayer('stations')); setExpanded(false); }}>Stations</div>
+            {/* <div onClick={() => { dispatch(toggleLayer('stations')); setExpanded(false); }}>Stations</div> */}
           </div>
         )}
       </div>

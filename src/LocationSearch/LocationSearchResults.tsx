@@ -6,7 +6,7 @@ import { RootState } from "../store";
 import { addSearchResults, toggleInSearch } from "../Slices/SearchSlice"
 import { setLocation } from "../MapCompoment/MapStateSlice";
 import { createPortal } from "react-dom";
-
+// my template for leaflet controls in windspeed control
 const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) => {
     const map = useMap();
     const controlDiv = useMemo(() => {
