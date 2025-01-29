@@ -22,6 +22,7 @@ import LocationSearch from "../LocationSearch/LocationSearch"
 import LocationSearchResults from "../LocationSearch/LocationSearchResults"
 import { useDispatch } from "react-redux"
 import { toggleInSearch } from "../Slices/SearchSlice"
+import WeatherAlerts from "../WeatherAlert/WeatherAlert"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -146,6 +147,7 @@ function MapComponent(){
                     </Popup> */}
                 </Marker>
                 <CurrentConditions position="bottomright"/>
+                <WeatherAlerts position="bottomright"/>
                 <FlyToLocation location={trackLocation} />
             </MapContainer>
         </div>

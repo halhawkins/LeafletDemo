@@ -1,0 +1,103 @@
+.alerts-container {
+    height: 5rem;
+    width: 5rem;
+    text-align: left;
+    /* background-color: white; */
+    background-color: lightgray;
+    border-width: 7px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 15px;
+    transition: all 100ms;
+    /* padding: .3rem; */
+}
+.alerts-container {/*:hover*/
+    height: 24rem;
+    width: 18rem;
+    /* background-color: #ffffff; */
+    transition: all 100ms;
+}
+.alerts-container.expand {
+    height: 24rem;
+    width: 10rem;
+    /* background-color: #ffffff; */
+    transition: all 100ms;
+}
+.current-temp-only {
+    font-size: 2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.alerts-details {
+    display: none; /* hidden by default */
+    /* margin-top: 1rem; */
+}
+
+.alerts-item {
+    padding: 1.5rem;
+}
+
+.alert-description {
+    /* font-weight: bold; */
+    padding: 1rem;
+}
+  
+.alert-sender {
+    font-weight: bold;
+    text-align: center;
+    padding: .5rem;
+}
+
+.alert-message, .alert-time {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-weight: 600;
+}
+.alerts-container .alerts-details {/*:hover*/
+    margin: 1rem;
+    display: flex; /* shown on hover */
+    /* padding: .3rem; */
+    gap: .5rem;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.alerts-container .left-arrow {/*:hover*/
+    color: black;
+    position: absolute;
+    margin-top: -4px;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 10%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.alerts-container .right-arrow {/*:hover*/
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 10%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.lt-symbol {
+    left: 6px;
+    position: relative;
+}
+.gt-symbol {
+    right: -6px;
+    position: relative;
+}

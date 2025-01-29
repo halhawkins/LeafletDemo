@@ -5,13 +5,27 @@
     margin-top: 0.5rem;
 }
 .day-panel {
-    width: 4.5rem;
+    width: 5.5rem;
     height: 17rem;
     background-color: white;
     text-align: center;
     padding: 0.5rem;
+    flex-grow: 1;
+    max-width: 8rem;
+    overflow-y: auto;
+}
+.day-panel::-webkit-scrollbar {
+    width: 0.5rem;
 }
 
+.day-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.day-panel::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
 .day-panel img {
     width: 4rem;
     margin-top: -1rem;

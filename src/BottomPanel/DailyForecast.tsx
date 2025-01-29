@@ -48,14 +48,15 @@ const DailyForecast: FC = () => {
         uvi: 0.23
     }
     const dailyForecastData = useSelector((state:RootState) => state.mapState.weatherData?.daily);
+    const alerts = useSelector((state: RootState) => state.mapState.weatherData?.alerts)
 
     // Render daily forecast component here
     return (
         <div className="daily-forecast">
             {dailyForecastData && dailyForecastData.map((forecast,index) => (
             <div className="day-panel" key={index}>
-            <h3>{moment.unix(forecast.dt).format("ddd")}</h3>
-                <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt={forecast.weather[0].description} style={{width: "75px", height: "75px"}} />
+                <h3>{moment.unix(forecast.dt).format("ddd")}</h3>
+                <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} alt={forecast.weather[0].description} style={{width: "75px", height: "75px"}} />
                 <p style={{textTransform: "capitalize", fontSize:"0.8rem"}}>{forecast.weather[0].description}</p>
                 <p style={{fontSize: "1.2rem", fontWeight: '600'}}>{Math.round(forecast.temp.day)}°F</p>
                 <div style={{textAlign: "left"}}>
@@ -67,6 +68,18 @@ const DailyForecast: FC = () => {
                 </div>
             </div>
             ))}
+            {alerts && alerts.map((alert, index) => {
+                return (
+                    <div className="day-panel" key={index}>                        
+                        <div style={{fontSize:"1.5rem", fontWeight:"600", marginBottom: "0.6rem"}}>Alert</div>
+                        <div style={{color: "red", fontSize: "4rem", fontWeight: "400"}}>⚠</div>
+                        <div style={{fontWeight: "600", marginBottom: "0.6rem"}}>{alert.sender_name}</div>
+                        <div style={{fontSize: "1rem"}}>{alert.event}&nbsp;</div>
+                        <div style={{fontSize: "0.8rem", textAlign: "left"}}>{alert.description}</div>
+                        <div style={{fontSize: "0.8rem", textAlign: "left"}}>{moment.unix(alert.start).format("MMM Do, h:mm a")} - {moment.unix(alert.end).format("MMM Do, h:mm a")}</div>
+                    </div>
+                )
+            })}
         </div>
     );
 }

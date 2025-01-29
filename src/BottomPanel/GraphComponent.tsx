@@ -88,7 +88,7 @@ const GraphComponent: FC<LineGraphProps> = ({
   };
 
   return (
-    <div style={{overflow: "hidden", width: "100%", padding: "1rem"}} className='gradient'>
+    <div style={{overflow: "hidden", width: "100%", padding: "1rem", marginLeft: "-18px"}} className='gradient'>
       <Line data={data} options={options} style={{height: '18rem', marginRight: "3rem", backgroundColor: "transparent", fill: "black"}}/>
     </div>
   );
