@@ -4,7 +4,7 @@ import { useMap } from "react-leaflet";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { addSearchResults, toggleInSearch } from "../Slices/SearchSlice"
-import { setLocation } from "../MapCompoment/MapStateSlice";
+import { addRecentLocation, setLocation } from "../MapCompoment/MapStateSlice";
 import { createPortal } from "react-dom";
 import { setWeatherData } from "../MapCompoment/MapStateSlice";
 // my template for leaflet controls in windspeed control
@@ -75,8 +75,9 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
             console.log("Selected location:", result.geometry);
             getWeatherData();
             dispatch(setLocation({lat: result.geometry.coordinates[1], lng: result.geometry.coordinates[0]}));
-            
-        }
+            const newLocation = {lat: result.geometry.coordinates[1], lng: result.geometry.coordinates[0], name: result.properties.formatted};
+            dispatch(addRecentLocation(newLocation));
+        }   
     }
 
     return createPortal(

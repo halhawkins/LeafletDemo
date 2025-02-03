@@ -40,7 +40,7 @@
 import { FC, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { setWeatherData } from "../MapCompoment/MapStateSlice";
+import { addRecentLocation, setWeatherData } from "../MapCompoment/MapStateSlice";
 
 const LocalWeather: FC = () => {
     const dispatch = useDispatch();
@@ -59,6 +59,7 @@ const LocalWeather: FC = () => {
 
                     console.log("OpenWeatherMap data = ", data);
                     dispatch(setWeatherData(data));
+                    // dispatch(addRecentLocation(lat, lng, ))
                     // localStorage.setItem("location")
 
                     // Find the earliest alert expiration time

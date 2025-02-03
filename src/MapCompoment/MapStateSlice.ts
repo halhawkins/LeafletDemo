@@ -170,17 +170,6 @@ const initialState = {
     weatherData: null as WeatherData | null,
 };
 
-const shiftRecentLocations = (recentPlaces:place[], targetLat:number, targetLng:number) => {
-    const recentPlaces: place[];
-    let index = recentPlaces.findIndex(p => p.lat === targetLat && p.lng === targetLng);
-    if (index === -1) return recentPlaces; // If not found, return the original array
-    
-    let foundElement = recentPlaces.splice(index, 1)[0]; // Remove the found element
-    recentPlaces.unshift(foundElement); // Insert it at the beginning
-    
-    return recentPlaces;
-}
-
 export const mapStateSlice = createSlice({
   name: "mapState",
   initialState,
@@ -199,15 +188,23 @@ export const mapStateSlice = createSlice({
         state.weatherData = action.payload;
     },
     addRecentLocation: (state, action) => {
-        const newRecentLocation = [...state.recentLocation];
-        const sameSpot = newRecentLocation.findIndex((location) => location.lat === action.payload.lat && location.lng === action.payload.lng)
-        if (sameSpot !== -1) {
-            state.recentLocation.splice(sameSpot, 1);
+        const recentPlaces = [...state.recentLocation];
+        const newLocation = action.payload;
+        let index = recentPlaces.findIndex(p => p.lat === newLocation.lat && p.lng === newLocation.lng);
+        
+        let foundElement = recentPlaces.splice(index, 1)[0]; // Remove the found element
+        console.log("Found element:", foundElement);
+        console.log("Recent places after removing:", recentPlaces);
+        if (index !== -1) {
+            recentPlaces.unshift(foundElement); // Insert it at the beginning
+        } else {
+            recentPlaces.unshift(newLocation); // Add it at the end if it doesn't exist already
         }
+        state.recentLocation = recentPlaces.slice(0, 10); // Limit the number of recent locations to 10
     }
   },
 });
 
 // Export the action creators and reducer
-export const { setLocation, setBounds, setWeatherData } = mapStateSlice.actions;
+export const { setLocation, setBounds, setWeatherData, addRecentLocation } = mapStateSlice.actions;
 export default mapStateSlice.reducer;
