@@ -4,9 +4,12 @@ import dotsMenu from "../assets/dots-menu.svg";
 import "./Selector.css";
 import { useDispatch } from "react-redux";
 import { toggleLayer } from "../Slices/SelectorSlice"
-import { AppDispatch, store } from "../store";
+import { AppDispatch, RootState, store } from "../store";
 import { Root, createRoot } from "react-dom/client";
 import { useMap } from "react-leaflet";
+import { useSelector } from "react-redux";
+import { setLocation } from "../MapCompoment/MapStateSlice";
+import pin from "../assets/pin.png";
 
 const LayerSelector: FC = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -14,8 +17,10 @@ const LayerSelector: FC = () => {
   const controlContainerRef = useRef<HTMLDivElement | null>(null);
   const dotsMenuRef = useRef<HTMLDivElement>(null);
   const expandedMenuRef = useRef<HTMLDivElement>(null);
+  const recentLocations = useSelector((state: RootState) => state.mapState.recentLocation)
   const map = useMap();
   const { dispatch } = store;
+  const [showRecent, setShowRecent] = useState(false);
 
   // Hold the control in a ref so it’s not recreated unnecessarily
   const controlRef = useRef<Control | null>(null);
@@ -57,9 +62,10 @@ const LayerSelector: FC = () => {
         L.DomEvent.disableClickPropagation(expandedMenuRef.current);
       }
     }
-  }, [map]);
+  }, [map, recentLocations]);
 
   useEffect(() => {
+    console.log('recent locations:', recentLocations);
     if (rootRef.current && controlContainerRef.current) {
       const handleToggle = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -69,6 +75,11 @@ const LayerSelector: FC = () => {
     }
   }, [expanded]);
 
+  const handleLocationMenuClick = () => {
+    console.log("location menu clicked", showRecent);
+    setShowRecent(!showRecent);
+  }
+
   const renderControlContent = (handleToggle: (e: React.MouseEvent) => void) => {
     rootRef.current?.render(
       <div className="layer-selector-container">
@@ -77,18 +88,28 @@ const LayerSelector: FC = () => {
         </div>
         {expanded && (
           <div className="expanded-menu" ref={expandedMenuRef} onClick={(e) => e.stopPropagation()}>
+            <div className="submenu" onClick={() => setShowRecent(!showRecent)}>
+              <div>Recent Locations</div>
+              {showRecent && recentLocations.map((location, index) => (
+                location.name.length > 0 ? 
+                  <div key={index} onClick={() => { dispatch(setLocation({lat: location.lat,lng: location.lng})); setExpanded(false); }}>
+                    <img src={pin} alt="pin" style={{width: "16px"}}/>&nbsp;
+                    {location.name.substring(0,location.name.lastIndexOf(',')).substring(0,15).length > 17 ? location.name.substring(0,location.name.lastIndexOf(',')).substring(0,15) + "..." : location.name.substring(0,location.name.lastIndexOf(',')).substring(0,15)}
+                  </div> : null
+              ))}
+            </div>
             <div onClick={() => { dispatch(toggleLayer('radar')); setExpanded(false); }}>Radar</div>
             <div onClick={() => { dispatch(toggleLayer('clouds')); setExpanded(false); }}>Clouds</div>
             <div onClick={() => { dispatch(toggleLayer('temperature')); setExpanded(false); }}>Temperature</div>
             <div onClick={() => { dispatch(toggleLayer('precipitation')); setExpanded(false); }}>Precipitation</div>
             <div onClick={() => { dispatch(toggleLayer('pressure')); setExpanded(false); }}>Pressure</div>
             <div onClick={() => { dispatch(toggleLayer('wind')); setExpanded(false); }}>Wind Speed</div>
-            {/* <div onClick={() => { dispatch(toggleLayer('stations')); setExpanded(false); }}>Stations</div> */}
           </div>
         )}
       </div>
     );
   };
+
 
   return null;
 };

@@ -28,7 +28,7 @@
     position: absolute;
     top: 40px; /* adjust this to put it below the dots menu */
     right: 0;  /* keep it aligned to the right */
-    width: 150px; 
+    width: 170px; 
     background-color: #eee5;
     border-radius: 4px;
     text-align: left;
@@ -43,4 +43,9 @@
 }
 .expanded-menu div:hover {
     background-color: #ddda;
+}
+.sub-menu {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
 }

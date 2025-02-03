@@ -77,6 +77,7 @@ const LocationSearchResults: FC<{ position: ControlPosition }> = ({ position }) 
             dispatch(setLocation({lat: result.geometry.coordinates[1], lng: result.geometry.coordinates[0]}));
             const newLocation = {lat: result.geometry.coordinates[1], lng: result.geometry.coordinates[0], name: result.properties.formatted};
             dispatch(addRecentLocation(newLocation));
+            localStorage.setItem("recentLocations", JSON.stringify([newLocation,...JSON.parse(localStorage.getItem("recentLocations") || "[]")]));
         }   
     }
 

@@ -192,13 +192,14 @@ export const mapStateSlice = createSlice({
         const newLocation = action.payload;
         let index = recentPlaces.findIndex(p => p.lat === newLocation.lat && p.lng === newLocation.lng);
         
-        let foundElement = recentPlaces.splice(index, 1)[0]; // Remove the found element
-        console.log("Found element:", foundElement);
-        console.log("Recent places after removing:", recentPlaces);
+        // Remove the found element
+        let foundElement = recentPlaces.splice(index, 1)[0]; 
         if (index !== -1) {
-            recentPlaces.unshift(foundElement); // Insert it at the beginning
+            // Insert it at the beginning
+            recentPlaces.unshift(foundElement); 
         } else {
-            recentPlaces.unshift(newLocation); // Add it at the end if it doesn't exist already
+            // Add the new location at the beginning
+            recentPlaces.unshift(newLocation); 
         }
         state.recentLocation = recentPlaces.slice(0, 10); // Limit the number of recent locations to 10
     }
