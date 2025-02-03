@@ -12,8 +12,9 @@ const WindSpeed: FC = () => {
     return (
         <div>
             <TileLayer 
-                opacity={1} 
+                // opacity={1} 
                 url={`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=dfba23226395d24a4c6293b1c3e8821b`}
+                // url={"http://maps.openweathermap.org/maps/2.0/weather/WS10/{z}/{x}/{y}?appid=dfba23226395d24a4c6293b1c3e8821b"}
                     // url="http://localhost:8000/api/weather/base/wind_new/{z}/{x}/{y}.png"
                     />
             <WindSpeedLegend position="topleft" />

@@ -68,18 +68,6 @@ const DailyForecast: FC = () => {
                 </div>
             </div>
             ))}
-            {alerts && alerts.map((alert, index) => {
-                return (
-                    <div className="day-panel" key={index}>                        
-                        <div style={{fontSize:"1.5rem", fontWeight:"600", marginBottom: "0.6rem"}}>Alert</div>
-                        <div style={{color: "red", fontSize: "4rem", fontWeight: "400"}}>⚠</div>
-                        <div style={{fontWeight: "600", marginBottom: "0.6rem"}}>{alert.sender_name}</div>
-                        <div style={{fontSize: "1rem"}}>{alert.event}&nbsp;</div>
-                        <div style={{fontSize: "0.8rem", textAlign: "left"}}>{alert.description}</div>
-                        <div style={{fontSize: "0.8rem", textAlign: "left"}}>{moment.unix(alert.start).format("MMM Do, h:mm a")} - {moment.unix(alert.end).format("MMM Do, h:mm a")}</div>
-                    </div>
-                )
-            })}
         </div>
     );
 }

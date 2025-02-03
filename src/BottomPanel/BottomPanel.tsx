@@ -101,7 +101,7 @@ const BottomPanel: FC = () => {
             <div className="tab-button" onClick={handleCollapse}>Current conditions</div>
             {hourlyTemps && times && (
                 <>
-                <span className="switch-display" onClick={toggleDisplay}>Go to Daily Forecast</span>
+                <span className="switch-display" onClick={toggleDisplay}>{showTemps ? <>Go to Daily Forecast</> : <>Go to Hourly Temperatures</>}</span>
                 {showTemps ? (
                     <GraphComponent 
                     yValues={hourlyTemps}

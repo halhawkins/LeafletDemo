@@ -2,25 +2,39 @@
     height: 5rem;
     width: 5rem;
     text-align: left;
-    /* background-color: white; */
     background-color: lightgray;
     border-width: 7px;
     border-style: solid;
     border-color: black;
     border-radius: 15px;
     transition: all 100ms;
-    /* padding: .3rem; */
 }
-.alerts-container {/*:hover*/
+.alerts-container:hover {
     height: 24rem;
     width: 18rem;
-    /* background-color: #ffffff; */
     transition: all 100ms;
+    overflow-y: auto;
 }
+.alerts-container::-webkit-scrollbar {
+    width: 8px; 
+  }
+  
+  .alerts-container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  .alerts-container::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 4px;
+  }
+  
+  .alerts-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
 .alerts-container.expand {
     height: 24rem;
     width: 10rem;
-    /* background-color: #ffffff; */
     transition: all 100ms;
 }
 .current-temp-only {
@@ -29,40 +43,59 @@
     font-weight: bold;
 }
 
-.alerts-details {
-    display: none; /* hidden by default */
-    /* margin-top: 1rem; */
+.alerts-container:hover .alerts-details {
+    display: none;
 }
 
 .alerts-item {
     padding: 1.5rem;
+    overflow-y: auto;
 }
 
-.alert-description {
-    /* font-weight: bold; */
+.alerts-container:hover .alert-description {
     padding: 1rem;
-}
-  
+    display: block;
+}  
+.alert-description {
+    display: none;
+}  
+
 .alert-sender {
+    display: none;
+}
+.alerts-container:hover .alert-sender {
     font-weight: bold;
     text-align: center;
     padding: .5rem;
+    display: block;
 }
-
 .alert-message, .alert-time {
+    display: none;
+}
+.alert-badge {
+    display: inline-block;
+    position: relative;
+    background-color: red;
+    color: white;
+    width: 1rem;
+    top: -4rem;
+    left: 1.1rem;
+    border-radius: 50%;
+}
+.alerts-container:hover .alert-message, .alerts-container:hover .alert-time {
     padding-left: 1rem;
     padding-right: 1rem;
     font-weight: 600;
+    display: block;
 }
-.alerts-container .alerts-details {/*:hover*/
+.alerts-container .alerts-details {
     margin: 1rem;
-    display: flex; /* shown on hover */
-    /* padding: .3rem; */
+    display: flex;
     gap: .5rem;
     flex-direction: column;
     align-items: flex-start;
 }
-.alerts-container .left-arrow {/*:hover*/
+.alerts-container:hover .left-arrow {
     color: black;
     position: absolute;
     margin-top: -4px;
@@ -79,7 +112,7 @@
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.alerts-container .right-arrow {/*:hover*/
+.alerts-container:hover .right-arrow {
     position: absolute;
     width: 1.5rem;
     height: 1.5rem;

@@ -1,7 +1,7 @@
 .bottom-panel {
     position: absolute;
     text-align: left;
-    width: 100%;
+    width: 60rem;
     height: 23rem;
     background-color: #ededed;
     z-index: 1000;

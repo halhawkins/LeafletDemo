@@ -35,6 +35,7 @@ function MapComponent(){
     const [pressureVisible, setPressureVisible] = useState(true);
     const [windVisible, setWindVisible] = useState(true);
     const [stationsVisible, setStationsVisible] = useState(false);
+    const alerts = useSelector((state: RootState) => state.mapState.weatherData?.alerts);
     const showSearchResults = useSelector((state: RootState) => state.search.inSearch)
     useEffect(() => {
         // console.log("layers changed", layers);
@@ -147,7 +148,7 @@ function MapComponent(){
                     </Popup> */}
                 </Marker>
                 <CurrentConditions position="bottomright"/>
-                <WeatherAlerts position="bottomright"/>
+                {alerts && alerts.length > 0 && <WeatherAlerts position="bottomright" />}
                 <FlyToLocation location={trackLocation} />
             </MapContainer>
         </div>
