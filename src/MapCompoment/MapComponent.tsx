@@ -104,7 +104,7 @@ function MapComponent(){
 
     return (
         <div style={{width: "100%", height: '100%', position: "absolute"}}>
-            <MapContainer center={GeoPoint} zoom={13} scrollWheelZoom={true} style={{ width:"100%", height: "100%"}}>
+            <MapContainer center={GeoPoint} zoom={13} scrollWheelZoom={true} style={{ width:"100%", height: "100%", position: "fixed"}}>
             <LocationSearch position="bottomleft"/>
             {showSearchResults && <LocationSearchResults position="bottomleft"/>}
             <TileLayer
