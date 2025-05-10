@@ -53,6 +53,7 @@ const DailyForecast: FC = () => {
     // Render daily forecast component here
     return (
         <div className="daily-forecast">
+            <div className="daily-forcast-container">
             {dailyForecastData && dailyForecastData.map((forecast,index) => (
             <div className="day-panel" key={index}>
                 <h3>{moment.unix(forecast.dt).format("ddd")}</h3>
@@ -68,6 +69,7 @@ const DailyForecast: FC = () => {
                 </div>
             </div>
             ))}
+            </div>
         </div>
     );
 }

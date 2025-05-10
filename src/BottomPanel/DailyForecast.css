@@ -1,8 +1,19 @@
 .daily-forecast {
-    display: flex;
-    flex-wrap: nowrap;
+    /* display: flex; */
+    /* flex-wrap: nowrap; */
+    /* width: 100%; */
     gap: 0.6rem;
     margin-top: 0.5rem;
+    overflow-x: auto;
+}
+.daily-forcast-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: no-wrap;
+    margin-bottom: 1rem;
+    /* justify-content: space-between; */
+    width: 100%;
+    overflow-x: auto;
 }
 .day-panel {
     width: 5.5rem;
@@ -11,6 +22,7 @@
     text-align: center;
     padding: 0.5rem;
     flex-grow: 1;
+    flex-shrink: 0;
     max-width: 8rem;
     overflow-y: auto;
 }
