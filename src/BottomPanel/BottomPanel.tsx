@@ -94,7 +94,7 @@ const BottomPanel: FC = () => {
         const newLocal = divisions + 1;
     }
     const toggleDisplay = () => setShowTemps(!showTemps);
-    console.log("showTemps", showTemps);
+
     const handleCollapse = () => setHidePanel(!hidePanel);
     return (
         <div className={!hidePanel ? "bottom-panel" : "bottom-panel hidden"}>
