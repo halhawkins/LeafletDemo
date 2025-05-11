@@ -73,7 +73,7 @@
 
   .search-results {
     position: relative;
-    width: 350px;
+    width: 275px;
     height: 200px;
     background-color: white;
     border: 8px solid var(--color);
