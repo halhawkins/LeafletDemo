@@ -57,7 +57,7 @@ const DailyForecast: FC = () => {
             {dailyForecastData && dailyForecastData.map((forecast,index) => (
             <div className="day-panel" key={index}>
                 <h3>{moment.unix(forecast.dt).format("ddd")}</h3>
-                <img src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} alt={forecast.weather[0].description} style={{width: "75px", height: "75px"}} />
+                <img src={`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`} alt={forecast.weather[0].description} style={{width: "75px", height: "75px"}} />
                 <p style={{textTransform: "capitalize", fontSize:"0.8rem"}}>{forecast.weather[0].description}</p>
                 <p style={{fontSize: "1.2rem", fontWeight: '600'}}>{Math.round(forecast.temp.day)}°F</p>
                 <div style={{textAlign: "left"}}>
