@@ -18,7 +18,6 @@ const LocalWeather: FC = () => {
                     const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&units=imperial&appid=dfba23226395d24a4c6293b1c3e8821b`);
                     const data = await response.json();
 
-                    console.log("OpenWeatherMap data = ", data);
                     dispatch(setWeatherData(data));
                     // dispatch(addRecentLocation(lat, lng, ))
                     // localStorage.setItem("location")

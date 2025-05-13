@@ -65,7 +65,6 @@ const LayerSelector: FC = () => {
   }, [map, recentLocations]);
 
   useEffect(() => {
-    console.log('recent locations:', recentLocations);
     if (rootRef.current && controlContainerRef.current) {
       const handleToggle = (e: React.MouseEvent) => {
         e.stopPropagation();

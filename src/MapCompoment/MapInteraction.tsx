@@ -114,7 +114,6 @@ const MapInteraction: FC = () => {
                                 lat:position.coords.latitude, 
                                 lng: position.coords.longitude
                             }));
-                    console.log("Position received: ", position);
                 }
                 const options = {
                     enableHighAccuracy: true, // Request high-accuracy location (if available)
@@ -136,7 +135,6 @@ const MapInteraction: FC = () => {
                     method: 'GET',
                 });
                 const data = await response.json();
-                console.log("data=",data.properties.fireWeatherZone);
                 // mapObj.flyTo([location.lat, location.lng] as LatLngExpression, 13);
                 // setLocation({lat: location.lat, lng: location.lng  });
                 setForecastData(data);
