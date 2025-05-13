@@ -23,6 +23,7 @@ import LocationSearchResults from "../LocationSearch/LocationSearchResults"
 import { useDispatch } from "react-redux"
 import { toggleInSearch } from "../Slices/SearchSlice"
 import WeatherAlerts from "../WeatherAlert/WeatherAlert"
+import TimeComponent from "./TimeComponent/TimeComponent"
 function MapComponent(){
     const poly = GeoPoly.map(p => {return {lat: p[0], lng: p[1]}})
     const layers = useSelector((state: RootState) => state.selector.layers);
@@ -87,7 +88,6 @@ function MapComponent(){
                 (position) => {
                     const { latitude, longitude } = position.coords;
                     setLocation({lat: latitude, lng: longitude});
-                    console.log("User's current position: ", latitude, longitude);
                 },
                 (error) => {
                     console.error("Error getting location: ", error);
@@ -105,6 +105,7 @@ function MapComponent(){
     return (
         <div style={{width: "100%", height: '100%', position: "absolute"}}>
             <MapContainer center={GeoPoint} zoom={13} scrollWheelZoom={true} style={{ width:"100%", height: "100%", position: "fixed"}}>
+            {/* {cloudsVisible && <TimeComponent position="bottomleft" maxValue={23} currentValue={0} onChange={() => {}} onPlay={() => { console.log("Play button clicked"); }}/>} */}
             <LocationSearch position="bottomleft"/>
             {showSearchResults && <LocationSearchResults position="bottomleft"/>}
             <TileLayer
@@ -115,19 +116,15 @@ function MapComponent(){
                 <MapInteraction />
                 { (() => {
                     if (radarVisible) {
-                        console.log("Radar visible");
                         return (<Radar />)
                     } else {
-                        console.log("Radar not visible");
                         return (<></>)
                     }
                 })() }
                 { (() => {
                     if (cloudsVisible) {
-                        console.log("clouds visible");
                         return (<Satellite />)
                     } else {
-                        console.log("clouds not visible");
                         return (<></>)
                     }
                 })() }
@@ -160,7 +157,6 @@ const FlyToLocation: React.FC<{ location: { lat: number; lng: number } }> = ({ l
     const dispatch = useDispatch();
   
     useEffect(() => {
-        console.log("Flying to location", location);
      // Fly to the current position when component mounts or whenever the location changes
       if (map) {
         // map.on('moveend', () => {
