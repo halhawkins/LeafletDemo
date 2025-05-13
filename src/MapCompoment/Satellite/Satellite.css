@@ -1,0 +1,17 @@
+.vertical-slider {
+  /* writing-mode: bt-lr; */
+  /* width: 8px; */
+  /* height: 200px; */
+  position: relative;
+  top: 88;
+  right: 0;
+}
+.opacity-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 0;
+  /* width: 200px; */
+  /* transform: translateX(0px) rotate(-90deg); */
+
+  transform: translateY(-50%) rotate(-90deg) translateX(-50%) translateY(-50px);
+}

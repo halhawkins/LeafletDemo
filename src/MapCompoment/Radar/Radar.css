@@ -58,3 +58,23 @@
     font-size: .8rem;
     transform: rotate(90deg);
   }
+  .right-vertical-slider {
+  /* writing-mode: bt-lr; */
+  /* width: 8px; */
+  /* height: 200px; */
+  position: absolute;
+  /* top: 88; */
+  /* right: 50%; */
+}
+.radar-opacity-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  height: 4px;
+  right: 50%;
+  z-index: 1010;
+  /* width: 200px; */
+  /* transform: translateX(0px) rotate(-90deg); */
+
+  /* transform: translateY(-50%) rotate(-90deg) translateX(-50%) translateY(-50px); */
+}
